@@ -1,0 +1,45 @@
+.trialEndedWrapper {
+    position:fixed;
+    z-index:10002;
+    left:0;right:0;
+    top:0;bottom:0;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color:rgba(0,0,0,0.7);
+}
+.trialEnded {
+    display:inline-block;
+    border: 1px solid #001C46;
+    background-color:white;
+    padding:50px 10px 10px 10px;
+    position:relative;
+    min-width:250px;
+}
+.trialEndedWrapper .closeButton {
+    margin: 20px calc(50% - 75px) 10px calc(50% - 75px);
+}
+#trialEnded_close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+#trialEnded_close:before, #trialEnded_close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
+#trialEnded_close:before {
+    transform: rotate(45deg);
+}
+#trialEnded_close:after {
+    transform: rotate(-45deg);
+}

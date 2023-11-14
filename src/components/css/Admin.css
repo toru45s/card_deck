@@ -1,0 +1,20 @@
+body {
+    overflow: auto;
+}
+.ql-raw:before {
+    content: 'HTML';
+}
+
+.quill_wrapper textarea {
+    display:none;
+    width:100%;
+}
+.quill_wrapper.showSource textarea {
+    display:block;
+}
+.quill_wrapper.showSource .ql-editor {
+    display:none;
+}
+#cardForm {
+    width:400px;
+}

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Digi Card Therapy is an innovative website providing digital tools and content for therapists and coaches from all approaches. Call us: 972 3-376-1175"
+    />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Digi Card Therapy</title>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+      * {
+        font-family: 'Lato', sans-serif;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        overflow: auto;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      .preloader {
+        position:fixed;
+        background-color:white;
+        width:100%;
+        height:100%;
+        left:0;right:0;
+        top:0;bottom:0;
+        z-index:9999999999;
+        transition:0.4s;
+        opacity:1;
+      }
+      .preloader.loaded {
+        opacity:0;
+        pointer-events: none;
+      }
+      .preloader:not(.loaded) .preloader_spinner, .preloader:not(.loaded) .preloader_spinner:before, .preloader:not(.loaded) .preloader_spinner:after {
+        width:60px;
+        height:100px;
+        border:2px solid #001C46;
+        border-radius:3px;
+        background-color:white;
+        transition:0.3s;
+        position:absolute;
+        display:block;
+        left:0;right:0;
+        top:0;bottom:0;
+        margin:auto;
+        z-index: 0;
+        animation: 1s preloader_card_2 infinite;
+        transform:rotate(5deg);
+      }
+      .preloader:not(.loaded) .preloader_spinner:before {
+        content:'';
+        transform:rotate(-5deg);
+        z-index: 1;
+        animation: 1s preloader_card_1 infinite;
+        right:-5px;
+      }
+      .preloader:not(.loaded) .preloader_spinner:after {
+        content:'';
+        z-index: 2;
+        animation: 1s preloader_card_0 infinite;
+      }
+      @keyframes preloader_card_0 {
+        0% {
+          transform:rotate(-5deg);
+        }
+        50% {
+          transform:rotate(15deg);
+        }
+        100% {
+          transform:rotate(-5deg);
+        }
+      }
+      @keyframes preloader_card_1 {
+        0% {
+          transform:rotate(-5deg);
+        }
+        50% {
+          transform:rotate(30deg);
+        }
+        100% {
+          transform:rotate(-5deg);
+        }
+      }
+      @keyframes preloader_card_2 {
+        0% {
+          transform:rotate(5deg);
+        }
+        50% {
+          transform:rotate(-15deg);
+        }
+        100% {
+          transform:rotate(5deg);
+        }
+      }
+      .container {
+        max-width:1920px;
+        margin:auto;
+        position:relative;
+      }
+      .rtl {
+        direction:rtl;
+      }
+      .lang {
+        position:absolute;
+        right:10px;
+        top:60px;
+        max-height:30px;
+        overflow:hidden;
+        z-index:10002;
+        color:#001C46;
+        text-align:center;
+        transition:0.3s;
+      }
+      .lang_selector {
+        text-align:right;
+      }
+      .lang:hover {
+        max-height:350px;
+      }
+      .lang span {
+        font-size:18px;
+        font-weight:bold;
+      }
+      .lang button {
+        background: none;
+        border: 0;
+        display:inline-block;
+        margin:10px;
+        cursor: pointer;
+        transition:0.3s;
+        font-size:18px;
+        font-weight:bold;
+        opacity:0;
+      }
+      .lang button:nth-of-type(2) {
+        transition:0.8s;
+      }
+      .lang button:nth-of-type(3) {
+        transition:1.2s;
+      }
+      .lang button:nth-of-type(4) {
+        transition:1.6s;
+      }
+      .lang button:nth-of-type(5) {
+        transition:2.1s;
+      }
+      .lang:hover button {
+        opacity:1;
+      }
+      .lang button:hover {
+        color:#65ABCD;
+      }
+      #lang-body {
+        margin-bottom:25px !important;
+      }
+      .lang .chevron {
+        width:12px;
+        height:6px;
+        position:relative;
+        display:inline-block;
+        margin-left:7px;
+      }
+      .lang .chevron:before, .lang .chevron:after {
+        content: '';
+        width:60%;
+        height:1px;
+        background-color:#65ABCD;
+        position:absolute;
+        transition:0.3s;
+      }
+      .lang .chevron:before {
+        left:0;
+        transform: rotate(45deg);
+      }
+      .lang .chevron:after {
+        right:0;
+        transform: rotate(-45deg);
+      }
+      .lang:hover .chevron:before {
+        transform: rotate(-45deg);
+      }
+      .lang:hover .chevron:after {
+        transform: rotate(45deg);
+      }
+      .ql-align-left {
+        text-align:left;
+      }
+      .ql-align-center {
+        text-align:center;
+      }
+      .ql-align-right {
+        text-align:right;
+      }
+      .ql-direction-rtl {
+        direction:rtl;
+      }
+
+      #modal {
+        display: none;
+        opacity: 0;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        background-color: rgba(0, 0,0, 0.8);
+        z-index: 10002;
+      }
+      #modal.active {
+        opacity: 1;
+        display: flex;
+      }
+      #modal_window {
+        padding: 25px 50px 50px 50px;
+        width: 90%;
+        height: 90%;
+        min-height:400px;
+        color: black;
+        position: relative;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+      #modal_content {
+        max-height: 95%;
+        margin: auto;
+        overflow: auto;
+        max-width: 100%;
+        width: 100%;
+      }
+      #modal_content a {
+        color:hotpink;
+      }
+      #modal_close {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 32px;
+        height: 32px;
+        opacity: 0.3;
+        cursor: pointer;
+      }
+      #modal_close:before, #modal_close:after {
+        position: absolute;
+        left: 15px;
+        content: ' ';
+        height: 33px;
+        width: 2px;
+        background-color: #333;
+      }
+      #modal_close:before {
+        transform: rotate(45deg);
+      }
+      #modal_close:after {
+        transform: rotate(-45deg);
+      }
+      #modal h1 {
+        margin-bottom:50px;
+        text-align:center;
+      }
+      #modal input {
+        width: 95%;
+        border: 1px solid #001C46;
+        border-radius: 6px;
+        padding: 20px;
+        font-size: 20px;
+        margin: 10px;
+      }
+      #modal textarea {
+        width: 95%;
+        border: 1px solid #001C46;
+        border-radius:6px;
+        resize: vertical;
+        padding: 20px;
+        font-size:20px;
+        display:block;
+        margin-bottom:20px;
+      }
+      #modal button {
+        font-size: 20px;
+        padding: 15px 10px;
+        cursor: pointer;
+        width: 150px;
+        color: white;
+        background-color: #001C46;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        transition: 0.3s;
+      }
+      #modal button:hover {
+        background-color: white;
+        color: #001C46;
+        border: 1px solid #001C46;
+      }
+      #modal_draggable {
+        max-height: 65%;
+        max-width: 80%;
+        min-height: 400px;
+        height: 100%;
+        color: black;
+        position: absolute;
+        background-color: white;
+        display: none;
+        z-index: 10000;
+        cursor: move;
+        left: 25%;
+        top: 25%;
+        border: 1px solid #001C46;
+      }
+      #modal_draggable.active {
+        display: block;
+      }
+      #modal_draggable_window {
+        padding: 50px 50px 10px 50px;
+        min-height: 400px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        height: 100%;
+      }
+      #modal_draggable_content {
+        margin: auto;
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height:100%;
+        overflow: auto;
+        resize: horizontal;
+      }
+      #modal_draggable_content a {
+        color:hotpink;
+      }
+      #modal_draggable_close {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 32px;
+        height: 32px;
+        opacity: 0.3;
+        cursor: pointer;
+      }
+      #modal_draggable_close:before, #modal_draggable_close:after {
+        position: absolute;
+        left: 15px;
+        content: ' ';
+        height: 33px;
+        width: 2px;
+        background-color: #333;
+      }
+      #modal_draggable_close:before {
+        transform: rotate(45deg);
+      }
+      #modal_draggable_close:after {
+        transform: rotate(-45deg);
+      }
+      #modal_draggable h1 {
+        margin-bottom:50px;
+      }
+      #modal_draggable input {
+        width: 95%;
+        border: 4px solid #15020f;
+        padding: 10px 20px;
+        font-size: 20px;
+        margin: 10px;
+      }
+      #modal_draggable textarea {
+        width: 95%;
+        border: 4px solid #15020f;
+        resize: vertical;
+        padding: 20px;
+        font-size:20px;
+        display:block;
+      }
+      .closeButton {
+        margin: 5px 20px -45px 20px;
+        font-size: 20px;
+        padding: 15px 10px;
+        cursor: pointer;
+        width: 150px;
+        color: white;
+        background-color: #65ABCD;
+        border-radius: 6px;
+        text-align:center;
+        border: 1px solid transparent;
+        transition: 0.3s;
+        display: inline-block;
+      }
+      .closeButton:hover {
+        background-color: white;
+        color: #65ABCD;
+        border: 1px solid #65ABCD;
+      }
+      .modal_bottom_buttons {
+        display:flex;
+        align-items: center;
+        justify-content: center;
+      }
+      @media (max-width:800px) {
+        #modal_draggable {
+          width:90%;
+          left:5%;
+          height:70%;
+          top:15%;
+        }
+      }
+      @media (max-width: 650px) {
+        #modal_window, #modal_draggable {
+          padding: 10px;
+        }
+      }
+    </style>
+    <!-- Facebook Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '465949201250530');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=465949201250530&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQN4LDF"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <div class="preloader" id="mainPreloader"><div class="preloader_spinner"></div></div>
+    <script type="text/javascript">
+
+        function isSupported() {
+            var test = function(regexp) {return regexp.test(window.navigator.userAgent)};
+            switch (true) {
+                case test(/firefox|fxios/i): return true;
+                case test(/chrome|chromium|crios/i): return true;
+                case test(/safari/i): return true;
+                default: return false;
+            }
+        }
+        
+        if (!isSupported()) {
+            const preloader = document.getElementById('preloader');
+            preloader.remove();
+            const root = document.getElementById('root');
+            root.innerHTML = "<h1>Your browser is not supported. Please get one of these and make sure that it's up to date</h1><div><a href='https://www.google.com/chrome/'>Google Chrome</a></div><div><a href='https://www.mozilla.org/en-US/firefox/new/'>Mozilla Firefox</a></div><div><a href='https://www.apple.com/safari/'>Apple Safari</a></div>";
+        }
+
+    </script>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+    <!-- Google Tag Manager -->
+    <script async>
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-TQN4LDF');
+        });
+      }, 2500);</script>
+    <!-- End Google Tag Manager -->
+    <!-- Tidio -->
+      <script async>
+        document.addEventListener('DOMContentLoaded', () => {
+          setTimeout(() => {
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = "//code.tidio.co/16irqjijqfidzj7d5vpszihyp6rbynyg.js";
+            document.body.appendChild(script);
+          }, 3500);
+        });
+      </script>
+    <!-- End Tidio -->
+    <link rel="stylesheet" href="/toast.css">
+  </body>
+</html>

@@ -1,0 +1,30 @@
+.dashModule {
+    width: 50%;
+    display:inline-block;
+}
+.infobox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0,0,0,0.1);
+    margin: 20px;
+    border-radius: 6px;
+}
+.infobox p{
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.infobox h2 {
+    font-size:25px;
+}
+form {
+    padding: 20px;
+}
+form input {
+    padding: 5px 20px;
+    margin: 20px;
+    width:300px;
+}

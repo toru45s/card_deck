@@ -1,0 +1,95 @@
+
+.coupon-code-box{
+    max-width: 800px;   
+}
+.coupon-code-box .MuiFormControl-root{
+    width: 100%;
+}
+.custom-item{
+    display:flex !important;
+    justify-content: space-between!important;
+    align-items: center!important;
+    
+}
+.custom-item p{
+    font-size: 14px;
+    color: #000;
+}
+.custom-item span{
+    font-size: 12px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.alert-right{
+    position: absolute;
+    right: 20px;
+    top: 70px;
+    z-index: 1;
+}
+.coupon-code-box .MuiSelect-root span{
+    display: none;
+}
+.heading-top-list{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+.icon24{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0px 5px;
+}
+.d-flex{
+    display: flex;
+}
+.sort-div{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-weight: 700;
+}
+.sort-div .sort-icon{
+    height: 22px;
+    line-height: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+}
+.sort-div .arrow-icon{
+    width: 10px;
+    height: 10px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+.sort-div .arrow-icon:hover{
+    opacity: 1;
+}
+.modal-btn-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.modal-btn-flex .MuiButtonBase-root{
+    margin: 0px 8px;
+}
+/* .heading-top-list . */

@@ -1,0 +1,291 @@
+#deckStarter {
+    position: fixed;
+    background-color:#F1F3F6;
+    left: 0;
+    top: 0;
+    z-index: 10001;
+    width: 100%;
+    height: 100%;
+    display: none;
+    overflow: auto;
+}
+#deckStarter_window {
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    padding:20px 10px;
+}
+#deckStarter.active {
+    display: block;
+}
+#deckStarter_close {
+    position: fixed;
+    right: 30px;
+    top: 15px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+#deckStarter_close:before, #deckStarter_close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
+#deckStarter_close:before {
+    transform: rotate(45deg);
+}
+#deckStarter_close:after {
+    transform: rotate(-45deg);
+}
+#deckStarter h2 {
+    font-weight: normal;
+    font-size: 52px;
+    line-height: 62px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    color:#001C46;
+}
+#deckStarter h1 {
+    font-weight: normal;
+    font-size: 52px;
+    line-height: 62px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    color:#001C46;
+}
+#deckStarter_content {
+    text-align:center;
+    width:100%;
+    margin-bottom:130px;
+}
+.deck-language{
+    font-size: 20px;
+    letter-spacing: 0.085em;
+    color: #001C46;
+    margin-top:50px;
+}
+.deck_lang_select_wrapper {
+    position:relative;
+    display:inline-block;
+}
+.deck_lang_select_wrapper .chevron {
+    width:12px;
+    height:6px;
+    position:absolute;
+    display:inline-block;
+    top:6px;bottom:0;
+    right:20px;
+    margin:auto;
+}
+.deck_lang_select_wrapper .chevron:before, .deck_lang_select_wrapper .chevron:after {
+    content: '';
+    width:60%;
+    height:1px;
+    background-color:#65ABCD;
+    position:absolute;
+    transition:0.3s;
+}
+.deck_lang_select_wrapper .chevron:before {
+    left:0;
+    transform: rotate(45deg);
+}
+.deck_lang_select_wrapper .chevron:after {
+    right:0;
+    transform: rotate(-45deg);
+}
+.deck_lang_select_wrapper:hover .chevron:before {
+    transform: rotate(-45deg);
+}
+.deck_lang_select_wrapper:hover .chevron:after {
+    transform: rotate(45deg);
+}
+#deck_lang_select {
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px auto;
+    padding: 20px 95px;
+    border: 1px solid #001C46;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color:white;
+    font-size: 18px;
+    letter-spacing: 0.085em;
+    color: #001C46;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    width:100%;
+}
+#deck_lang_select--globe {
+    content: '';
+    width:40px;
+    height:40px;
+    /*display:inline-block;*/
+    display:none;
+    background-image:url('../img/globe.png');
+    background-size:cover;
+    vertical-align: bottom;
+}
+#deckStarter_bottom {
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+    position:fixed;
+    bottom:10px;
+    align-items:flex-end;
+    padding: 0 10px;
+}
+#deckStarter_bottom label {
+    padding:10px;
+}
+#deckStarter_disclaimer {
+    color: rgba(0,0,0,0.6);
+    background-color:rgba(255,255,255,0.9);
+    text-align: center;
+    padding: 20px;
+    max-width: 250px;
+    box-shadow: 0px 0px 9px 7px rgb(109 109 109);
+    border-radius:5px;
+    font-size:16px;
+}
+#deckStarter_checkbox {
+    margin-right: 10px;
+}
+#deckStarter_decks {
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items:baseline;
+    margin:20px 0;
+    flex-wrap: wrap;
+    width:100%;
+}
+.startDeck {
+    background: #FEFFFF;
+    box-shadow: 5px 5px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    margin: 70px;
+    padding:15px 50px;
+    width: 296px;
+    height: 439px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.startDeck.filtered {
+    display:none;
+}
+.startDeck img {
+    cursor:pointer;
+    border-radius: 5px;
+    max-width:100%;
+    transition:0.3s;
+    z-index:1;
+    position:relative;
+    filter: drop-shadow(5px 5px 16px rgba(0, 0, 0, 0.15));
+}
+.startDeck_play {
+    cursor:pointer;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    color: #001C46;
+    border: 3px solid #001C46;
+    border-radius: 6px;
+    padding:16px 0;
+    transition:0.3s;
+}
+.startDeck_play:hover {
+    background-color: #001C46;
+    color:white;
+}
+.startDeck_buy {
+    cursor:pointer;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    color: white;
+    background-color: #001C46;
+    border: 3px solid #001C46;
+    border-radius: 6px;
+    padding:16px 0;
+    transition:0.3s;
+}
+.startDeck_buy:hover {
+    background-color: white;
+    color:#001C46;
+}
+.startDeck.not_subscribed:hover img {
+    filter:grayscale(100%);
+}
+.startDeck:hover .pseudoDeck {
+    transform:rotate(-6deg);
+}
+.startDeck:hover .pseudoDeck:nth-of-type(2) {
+    transform:rotate(-12deg);
+}
+.startDeck .deckImageWrapper {
+    position:relative;
+}
+
+.startDeck .pseudoDeck {
+    position:absolute;
+    transform:rotate(12deg);
+    z-index:0;
+}
+.startDeck img {
+    width:120px;
+    height:172px;
+}
+.startDeck_name {
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.085em;
+    color: #000000;
+    text-transform:uppercase;
+    height:49px;
+    overflow:hidden;
+    margin-top:20px;
+}
+.startDeck_description {
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: 0.085em;
+    height:39px;
+    overflow:hidden;
+    color: #000000;
+}
+
+@media (max-width:900px) {
+    #deckStarter_bottom {
+        flex-direction:column;
+        align-items: center;
+    }
+    #deckStarter_bottom label {
+        margin-top:10px;
+    }
+    #deckStarter_content {
+        margin-bottom:185px;
+    }
+}
+@media (max-height: 900px) {
+    #deckStarter h1, #deckStarter h2 {
+        font-size:25px;
+        line-height: 30px;
+    }
+    .deck-language {
+        margin-top:20px;
+    }
+    .startDeck {
+        margin:20px;
+    }
+    #deck_lang_select {
+        font-size:16px;
+        padding:15px 95px;
+    }
+}

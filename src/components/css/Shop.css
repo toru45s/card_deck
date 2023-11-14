@@ -1,0 +1,358 @@
+#shop {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    background-color: rgba(0, 0,0, 0.8);
+    z-index: 10002;
+}
+#shop.active {
+    opacity: 1;
+    display: flex;
+}
+#shop_window {
+    padding: 50px;
+    width: 90%;
+    height: 90%;
+    min-height:400px;
+    color: black;
+    position: relative;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+#shop h1 {
+    text-align:center;
+    margin-bottom:30px;
+}
+#shop_content {
+    max-height: 95%;
+    margin: auto;
+    overflow: auto;
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+    display:flex;
+}
+#shop_close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+#shop_close:before, #shop_close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
+#shop_close:before {
+    transform: rotate(45deg);
+}
+#shop_close:after {
+    transform: rotate(-45deg);
+}
+
+.PrivateTabIndicator-root-1 {
+    display: none;
+}
+
+.shop_deckSelectors_wrapper {
+    width:100%;
+}
+
+.subscribeDeck {
+
+}
+.subscribeDeck:hover {
+
+}
+.unsubscribeDeck {
+    cursor: pointer;
+    transition:0.3s;
+}
+.unsubscribeDeck:hover {
+    color:hotpink;
+}
+.shop_deck-selector.flash {
+    -webkit-animation: scrollflash 1s ease-in-out 0s;
+    -moz-animation: scrollflash 1s ease-in-out 0s;
+    -o-animation: scrollflash 1s ease-in-out 0s;
+    animation: scrollflash 1s ease-in-out 0s;
+}
+.intro_offer {
+    display:flex;
+    align-items:center;
+}
+.intro_offer span {
+    display: block;
+    width: 100%;
+    padding: 25px;
+    border: 3px solid #001C46;
+    font-size: 36px;
+    line-height: 43px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    border-radius:6px;
+    color:#001C46;
+}
+.intro_offer button {
+    font-size: 36px;
+    line-height: 43px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    color:white;
+    padding:25px 50px;
+    width:250px;
+    background-color:#001C46;
+    border:3px solid #001C46;
+    transition:0.3s;
+    cursor:pointer;
+    border-radius:6px;
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+    margin-left:-5px;
+}
+.intro_offer button:hover {
+    color:#001C46;
+    background-color:white;
+}
+#shop .deckImageWrapper {
+    position:relative;
+}
+
+#shop .pseudoDeck {
+    position:absolute;
+    transform:rotate(12deg);
+    transition:0.2s;
+    z-index:0;
+}
+.deckImageWrapper img {
+    z-index: 1;
+    position: relative;
+    filter: drop-shadow(5px 5px 16px rgba(0, 0, 0, 0.15));
+    border-radius:6px;
+}
+#shop .shop_deck-selector:hover .pseudoDeck {
+    transform:rotate(-6deg);
+}
+#shop .shop_deck-selector:hover .pseudoDeck:nth-of-type(2) {
+    transform:rotate(-12deg);
+}
+.shop_deckSelectors {
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items:baseline;
+    flex-wrap: wrap;
+    width:100%;
+}
+.shop_deck-selector {
+    background: #FEFFFF;
+    box-shadow: 5px 5px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    margin: 70px;
+    padding:15px;
+    width: 320px;
+    height: 504px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+}
+.shop_deck-selector img {
+    width:120px;
+    height:172px;
+}
+.deck_name {
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.085em;
+    color: #000000;
+    text-transform:uppercase;
+    height:49px;
+    overflow:hidden;
+    margin-top:20px;
+}
+#shop .subscribe_text {
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    color: #001C46;
+    margin-bottom:12px;
+}
+#shop .subscribeDeck_options {
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    align-items: center;
+    width:100%;
+}
+.subscribeDeck {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width:100%;
+    margin:11px 0;
+}
+.subscribeDeck_options.processing .subscribeDeck_buy {
+    pointer-events: none;
+    filter:grayscale(1);
+}
+.subscribeDeck_buy {
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    color:white;
+    padding:15px;
+    background-color:#001C46;
+    border:3px solid #001C46;
+    transition:0.3s;
+    cursor:pointer;
+    border-radius:6px;
+    margin-left:-5px;
+    width:178px;
+    display:block;
+}
+.subscribeDeck_buy:hover {
+    color:#001C46;
+    background-color:white;
+}
+.subscribeDeck_price {
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    letter-spacing: 0.085em;
+    display:block;
+}
+.subscribe_month, .subscribe_year {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    width:100%;
+}
+.eulaCheckbox {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin: 5px 20px -45px 20px;
+}
+.eulaCheckbox input[type="checkbox"] {
+    width:29px;
+    height:29px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.eulaCheckbox a {
+    color: #1D5DDA;
+    text-decoration: none;
+    margin-left:5px;
+}
+@-webkit-keyframes scrollflash {
+    0% {
+        background-color:transparent;
+    }
+    50% {
+        background-color:rgba(0,0,0,0.2);
+    }
+    100% {
+        background-color:transparent;
+    }
+}
+@-moz-keyframes scrollflash {
+    0% {
+        background-color:transparent;
+    }
+    50% {
+        background-color:rgba(0,0,0,0.2);
+    }
+    100% {
+        background-color:transparent;
+    }
+}
+@keyframes scrollflash {
+    0% {
+        background-color:transparent;
+    }
+    50% {
+        background-color:rgba(0,0,0,0.2);
+    }
+    100% {
+        background-color:transparent;
+    }
+}
+
+
+.subscribeDeck_info {
+    display:flex;
+    align-items: center;
+    width:200px;
+}
+@media (max-width: 1600px) {
+    .intro_offer span, .intro_offer button {
+        font-size: 20px;
+        padding:5px;
+    }
+    .shop_deck-selector {
+        margin:20px;
+    }
+    .shop_deck-selector img {
+        width:100px;
+        height:150px;
+    }
+    .shop_deck-selector {
+        height:425px;
+    }
+    .subscribeDeck_buy {
+        font-size:16px;
+        padding:5px;
+    }
+    #shop .subscribe_text {
+        margin:0;
+    }
+    #shop h1 {
+        margin-bottom:10px;
+    }
+    #shop_window {
+        padding:35px;
+    }
+    #shop .modal_bottom_buttons {
+        margin-bottom:15px;
+    }
+}
+@media (max-width:950px) {
+    .intro_offer span {
+        border:none;
+        font-size:16px;
+    }
+    .intro_offer button {
+        border-radius: 6px;
+    }
+}
+@media (max-width:670px) {
+    .subscribeDeck_options>span {
+        display: none;
+    }
+}
+@media (max-width: 468px) {
+    #shop button {
+
+    }
+}

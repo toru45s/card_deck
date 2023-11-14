@@ -1,0 +1,104 @@
+#deck-selectors_wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    top: 96px;
+    height: calc(100% - 96px);
+    width:425px;
+    text-align: center;
+    z-index:1001;
+    transition:0.3s;
+    direction:rtl;
+}
+#deck-selectors {
+    width:425px;
+    min-height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition:0.3s;
+    direction:ltr;
+    margin:auto;
+    background-color:white;
+    position:relative;
+    padding:70px 0;
+}
+.deck-selector {
+    border: 0;
+    color: black;
+    margin: 10px 0;
+    cursor: pointer;
+    outline: 0;
+    transition: 0.3s;
+    font-size: 24px;
+    line-height: 29px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    padding:25px 45px;
+}
+.deck-selector.active, .deck-selector:hover {
+    background-color:#001C46;
+    color:white;
+}
+.deck-selector img {
+    width:82px;
+    height:115px;
+    border-radius:6px;
+    margin-right:25px;
+}
+#deck-selectors_wrapper.minimized {
+    width: 0px;
+    padding: 0;
+    overflow:hidden;
+    bottom: 0;
+    margin: auto;
+}
+#deck-selectors_wrapper.minimized .deck-selector {
+    display:none;
+}
+#deck-selectors_wrapper.minimized .mobile_minimize {
+    left:15px;
+}
+
+#deck-selectors_wrapper.minimized .mobile_minimize:before {
+    transform: rotate(-45deg);
+    top:20px;
+}
+
+#deck-selectors_wrapper.minimized .mobile_minimize:after {
+    transform: rotate(45deg);
+    top:20px;
+}
+#searchDecks {
+    position: absolute;
+    top: 20px;
+    left:0;
+    right:0;
+    width: 80%;
+    margin: 0 auto;
+}
+#searchDecks input {
+    padding: 1.4em 1em 1.4em calc(1em + 40px);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
+    border: 1px solid #001C46;
+    border-radius: 10px;
+    width:100%;
+}
+
+#searchDecks:after {
+    content: '';
+    display:block;
+    width:30px;
+    height:30px;
+    position:absolute;
+    top: calc(50% - 15px);
+    left: 10px;
+    background-image:url(../img/decks.png);
+    background-size:cover;
+}

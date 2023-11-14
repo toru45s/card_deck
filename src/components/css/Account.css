@@ -1,0 +1,552 @@
+#account {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    background-color: rgba(0, 0,0, 0.8);
+    z-index: 10002;
+}
+#account.active {
+    opacity: 1;
+    display: flex;
+}
+#account_window {
+    padding: 50px;
+    width: 90%;
+    height: 90%;
+    min-height:400px;
+    color: black;
+    position: relative;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+#account_content {
+    max-height: 95%;
+    margin: auto;
+    overflow: auto;
+    max-width: 100%;
+    width: 100%;
+    text-align: center;
+    display:flex;
+    flex-direction:column;
+    font-size: 18px;
+    line-height: 22px;
+}
+#account_close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+#account_close:before, #account_close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
+#account_close:before {
+    transform: rotate(45deg);
+}
+#account_close:after {
+    transform: rotate(-45deg);
+}
+#account h1 {
+    text-align:center;
+}
+#account input {
+    width: 100%;
+    max-width:503px;
+    border: 1px solid #001C46;
+    border-radius:6px;
+    padding: 20px;
+    font-size: 20px;
+    margin: 30px auto;
+}
+#account input[type="text"], #account input[type="email"] {
+    display:block;
+}
+#account textarea {
+    width: 95%;
+    border: 1px solid #001C46;
+    border-radius:6px;
+    resize: vertical;
+    padding: 20px;
+    font-size:20px;
+    display:block;
+}
+#account label {
+    display: block;
+    position:relative;
+}
+#account label span {
+    display: inline-block;
+    position: absolute;
+    top: -20px;
+    background-color: white;
+    padding: 10px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: 100px;
+    font-size: 16px;
+}
+#account a {
+    color: #1D5DDA;
+    text-decoration: none;
+}
+#account input[type="checkbox"] {
+    width:29px;
+    height:29px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+#account_navigation button {
+    font-size: 36px;
+    line-height: 43px;
+    letter-spacing: 0.085em;
+    transition: 0.3s;
+    margin: 5px auto;
+    cursor: pointer;
+    color:black;
+    background-color:transparent;
+    border:none;
+    text-transform: none;
+    max-width:initial;
+    position:relative;
+}
+#account_navigation button:after {
+    content:'';
+    transition:0.3s;
+    width:0;
+    height:2px;
+    position:absolute;
+    bottom:0;
+    background-color:#001C46;
+}
+#account_navigation .Mui-selected:after, #account_navigation button:hover:after {
+    width:100%;
+}
+#account_navigation button:hover {
+    color: #001C46;
+}
+.MuiTabs-root {
+    width:100%;
+}
+.PrivateTabIndicator-root-1 {
+    display: none;
+}
+#account_navigation {
+    display: flex;
+}
+.account_tab.Mui-selected {
+    background-color: #15020f;
+    border: 4px solid #15020f;
+    color: #c6c0c0;
+}
+.account_active_tab {
+    width:100%;
+    margin-top:10px;
+    padding:20px;
+}
+.unsubscribeDeck {
+    cursor: pointer;
+    transition:0.3s;
+}
+.unsubscribeDeck:hover {
+    color:hotpink;
+}
+.account_deck-selector {
+    list-style: none;
+    border-bottom: 4px solid #15020f;
+    margin-bottom:20px;
+    padding: 10px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.account_deck-selector.flash {
+    -webkit-animation: scrollflash 1s ease-in-out 0s;
+    -moz-animation: scrollflash 1s ease-in-out 0s;
+    -o-animation: scrollflash 1s ease-in-out 0s;
+    animation: scrollflash 1s ease-in-out 0s;
+}
+#account .account_deckSelectors_wrapper button {
+    padding: 10px 20px;
+    margin: 0 20px;
+    position:relative;
+    background-color:transparent;
+}
+#account .account_deckSelectors_wrapper button span {
+    position: absolute;
+    top: -14px;
+    left: 0;
+    right: 0;
+    background-color: white;
+    width: 80px;
+    margin: auto;
+}
+.account_personal {
+    display:flex;
+}
+.account_formwrapper {
+    width:50%;
+}
+.account_backgrounds {
+    width:50%;
+}
+.account_button {
+    background-color: #65ABCD;
+    border-radius: 6px;
+    padding:25px;
+    width:100%;
+    color:white;
+    font-size: 22px;
+    line-height: 26px;
+    letter-spacing: 0.085em;
+    max-width: 503px;
+    border:1px solid #65ABCD;
+    transition:0.3s;
+    cursor:pointer;
+    display:block;
+    margin:auto;
+}
+.account_button:hover {
+    background-color:white;
+    color:#65ABCD;
+}
+.account_logout_button {
+    background-color:transparent;
+    border-radius: 6px;
+    padding:25px;
+    width:100%;
+    color:black;
+    font-size: 22px;
+    line-height: 26px;
+    letter-spacing: 0.085em;
+    max-width: 503px;
+    border:1px solid black;
+    transition:0.3s;
+    cursor:pointer;
+    display:block;
+    margin:30px auto 0 auto;
+}
+.account_logout_button:hover {
+    background-color:#001C46;
+    color:white;
+    border-color:#001C46;
+}
+#account .deck_lang_select_wrapper {
+    width:100%;
+    max-width:503px;
+}
+#account .deck_lang_select_wrapper select {
+    padding:20px;
+}
+#account .deck_lang_select_wrapper span {
+    top:-12px;
+}
+.deck_role_wrapper {
+    width: 100%;
+    max-width: 503px;
+    position: relative;
+    display: inline-block;
+}
+#account .deck_role_wrapper span {
+    top:8px;
+    width:60px;
+}
+.accountUpgrade_button {
+    background-color:#001C46;
+    color:white;
+    border-radius: 6px;
+    padding:20px;
+    width:200px;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.085em;
+    position:absolute;
+    right:0;
+    top:31px;
+    border:1px solid #001C46;
+    transition:0.3s;
+    cursor:pointer;
+}
+.accountUpgrade_button:hover {
+    background-color:#65ABCD;
+    color:white;
+    border:1px solid #65ABCD;
+}
+.account_backgrounds {
+    background-color:#F1F3F6;
+    padding:20px 45px;
+}
+.account_backgrounds-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.account_backgrounds p {
+    text-align:left;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.085em;
+}
+.account_backgrounds-add {
+    background-color:white;
+    width:330px;
+    height:240px;
+    margin:25px;
+    position:relative;
+    cursor:pointer;
+    border-radius:6px;
+    overflow:hidden;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    padding: 20px;
+    transition:0.3s;
+    border: 1px solid transparent;
+}
+.fullwidth {
+    width:100%;
+}
+.account_backgrounds-add:hover .account_backgrounds-plus {
+    transform:rotate(180deg);
+}
+.account_backgrounds-add:hover {
+    border: 1px solid #001C46;
+}
+#account .account_backgrounds-add input {
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+    padding:0;
+    margin:0;
+    border:0;
+    opacity:0;
+    cursor:pointer;
+}
+.account_backgrounds-hint {
+    font-size:14px;
+}
+.account_backgrounds-plus {
+    border-radius:100%;
+    width:64px;
+    height:64px;
+    border:4px solid #001C46;
+    position:absolute;
+    left:0;right:0;
+    top:0;bottom:0;
+    margin:auto;
+    transition:0.3s;
+    pointer-events: none;
+}
+.account_backgrounds-plus:before, .account_backgrounds-plus:after {
+    position: absolute;
+    left: 26px;
+    top: 12px;
+    content: ' ';
+    height: 33px;
+    width: 5px;
+    background-color: #001C46;
+    border-radius: 10px;
+}
+.account_backgrounds-plus:before {
+    transform: rotate(0);
+}
+.account_backgrounds-plus:after {
+    transform: rotate(90deg);
+}
+.account_background {
+    width:330px;
+    height:240px;
+    margin:25px;
+    position:relative;
+    border-radius:6px;
+    overflow:hidden;
+}
+.account_background .shadow {
+    position:absolute;
+    pointer-events: none;
+    width:100%;
+    height:100%;
+    left:0;right:0;
+    top:0;bottom:0;
+    background-color:rgba(0,0,0,0.4);
+}
+.account_background img {
+    width:100%;
+    height:100%;
+    pointer-events: none;
+}
+.account_background-delete {
+    border-radius:100%;
+    width:64px;
+    height:64px;
+    border:4px solid white;
+    position:absolute;
+    right:12px;
+    top:12px;
+    margin:auto;
+    transition:0.3s;
+    cursor:pointer;
+}
+.account_background-delete:hover {
+    transform:rotate(-180deg);
+}
+.account_background-delete:before, .account_background-delete:after {
+    position: absolute;
+    left: 26px;
+    top: 12px;
+    content: ' ';
+    height: 33px;
+    width: 5px;
+    background-color: white;
+    border-radius: 10px;
+}
+.account_background-delete:before {
+    transform: rotate(-45deg);
+}
+.account_background-delete:after {
+    transform: rotate(45deg);
+}
+@-webkit-keyframes scrollflash {
+    0% {
+        background-color:transparent;
+    }
+    50% {
+        background-color:rgba(0,0,0,0.2);
+    }
+    100% {
+        background-color:transparent;
+    }
+}
+@-moz-keyframes scrollflash {
+    0% {
+        background-color:transparent;
+    }
+    50% {
+        background-color:rgba(0,0,0,0.2);
+    }
+    100% {
+        background-color:transparent;
+    }
+}
+@keyframes scrollflash {
+    0% {
+        background-color:transparent;
+    }
+    50% {
+        background-color:rgba(0,0,0,0.2);
+    }
+    100% {
+        background-color:transparent;
+    }
+}
+.account_deck-selector:last-of-type {
+    border-bottom: 4px solid #001C46;
+}
+
+.account_deck-selector img {
+    width:50px;
+    height:75px;
+    margin-right:20px;
+}
+
+.subscribeDeck_info {
+    display:flex;
+    align-items: center;
+    width:200px;
+}
+@media (max-width:1400px) {
+    #account input {
+        font-size:16px;
+        padding:15px;
+        margin:15px auto;
+    }
+    #account label span {
+        padding:5px;
+        top:-15px;
+    }
+    #account .deck_lang_select_wrapper select {
+        padding:15px;
+        font-size:16px;
+    }
+    #account .deck_lang_select_wrapper span {
+        padding:5px;
+        top:-7px;
+    }
+    #account .deck_role_wrapper span {
+        top:-2px;
+    }
+    .accountUpgrade_button {
+        font-size:16px;
+        padding:13px;
+        top:14px;
+        width:150px;
+    }
+    .account_button {
+        padding:10px;
+    }
+    .account_logout_button {
+        padding:10px;
+        margin: 10px auto 0 auto;
+    }
+    .account_active_tab {
+        margin-top:0;
+        padding:10px;
+    }
+    #account_navigation button {
+        font-size: 20px;
+        line-height: 22px;
+        margin: 0 auto;
+    }
+    #account_window {
+        padding:35px;
+    }
+}
+@media (max-width: 1000px) {
+    #account_window {
+        padding: 10px;
+    }
+    .account_personal {
+        flex-direction: column;
+    }
+    .account_formwrapper, .account_backgrounds {
+        width:100%;
+    }
+}
+@media (max-width:850px) {
+
+}
+@media (max-width:670px) {
+    .subscribeDeck_options>span {
+        display: none;
+    }
+}
+@media (max-width: 468px) {
+    #account button {
+        font-size:15px;
+        padding:0 5px;
+    }
+}

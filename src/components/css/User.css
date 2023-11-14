@@ -1,0 +1,8 @@
+#user_interface {
+    position: fixed;
+    bottom:15px;
+    right:15px;
+    font-size: 55px;
+    letter-spacing: 5px;
+    color: #c6c0c0;
+}
