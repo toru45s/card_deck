@@ -101,9 +101,22 @@ class Game extends Component {
         }
     }
 
+    async tryTokenLogin() {
+        const response = await fetch(process.env.REACT_APP_DOMAIN + ":" + process.env.REACT_APP_NODE_PORT + "/tokenLogin", {
+            headers: {"x-access-token": token}
+        });
+        if (response.ok) {
+            const json = await response.json();
+            this.context.methods.setUser(json);
+        }
+    }
+
     render() {
         if (!this.context.isLoggedIn ) {
             return <Redirect to="/login" />;
+        }
+        if (!this.context.user.username && this.context.user.token) {
+            this.tryTokenLogin();
         }
 
         return (

@@ -69,7 +69,7 @@
 #account h1 {
     text-align:center;
 }
-#account input {
+#account input:not(.ptro-input) {
     width: 100%;
     max-width:503px;
     border: 1px solid #001C46;
@@ -77,6 +77,9 @@
     padding: 20px;
     font-size: 20px;
     margin: 30px auto;
+}
+.ptro-color-control:not(.ptro-color-active-control) .ptro-icon-spray {
+    filter: invert(100%);
 }
 #account input[type="text"], #account input[type="email"] {
     display:block;
@@ -329,6 +332,9 @@
 .account_backgrounds-add:hover .account_backgrounds-plus {
     transform:rotate(180deg);
 }
+.account_backgrounds-add:hover .account_backgrounds-draw {
+    transform:rotate(0deg);
+}
 .account_backgrounds-add:hover {
     border: 1px solid #001C46;
 }
@@ -348,6 +354,20 @@
 }
 .account_backgrounds-hint {
     font-size:14px;
+}
+.account_backgrounds-draw {
+    border-radius:100%;
+    padding: 10px;
+    width:64px !important;
+    height:64px !important;
+    border:4px solid #001C46;
+    position:absolute;
+    left:0;right:0;
+    top:0;bottom:0;
+    margin:auto;
+    transition:0.3s !important;
+    pointer-events: none;
+    transform: rotate(90deg);
 }
 .account_backgrounds-plus {
     border-radius:100%;

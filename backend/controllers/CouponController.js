@@ -60,7 +60,7 @@ class CouponController {
 
     static async addCoupon(ctx) {
         console.log('addCoupon');
-        const {code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type} = ctx.request.body;
+        const {code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type,subscription_length} = ctx.request.body;
        // console.log(ctx.request.body);
         if(!code || !codeName || !reduction || !expiry_date || !number_of_coupons || !status || !start_date || !code_type){
             const value ={
@@ -91,7 +91,7 @@ class CouponController {
             ctx.body = value;
             
         }else{
-        const couponInstance = await CouponsService.addCoupon(code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type);
+        const couponInstance = await CouponsService.addCoupon(code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type,subscription_length);
         const value ={
             status:1,
             message: 'Coupon added successfully',
@@ -231,7 +231,8 @@ class CouponController {
             status:1,
             coupon_id: couponInstance.id,
             finalprice: finalprice.toFixed(2),
-            percentage: couponInstance.reduction
+            percentage: couponInstance.reduction,
+            subscription_length: couponInstance.subscription_length,
 
         };
         ctx.body = value;
@@ -243,7 +244,8 @@ class CouponController {
             status:1,
             coupon_id: couponInstance.id,
             finalprice: finalprice.toFixed(2),
-            percentage: couponInstance.reduction
+            percentage: couponInstance.reduction,
+            subscription_length: couponInstance.subscription_length,
         };
         ctx.body = value;
     }
@@ -265,7 +267,7 @@ class CouponController {
 
     static async editCoupon(ctx) {
         console.log('editCoupon123');
-        const {id,code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type} = ctx.request.body;
+        const {id,code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type,subscription_length} = ctx.request.body;
         if(!id || !code || !code_type || !expiry_date || !reduction || !start_date || !status){
             const value ={
                 status:0,
@@ -308,7 +310,7 @@ class CouponController {
             }
         }
                     // ctx.throw(400, "Coupon code already exists");
-        const couponInstanceEdit = await CouponsService.editCoupon(id,code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type);
+        const couponInstanceEdit = await CouponsService.editCoupon(id,code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type,subscription_length);
         const value ={
             status:1,
             message: 'Coupon updated successfully',

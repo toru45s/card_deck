@@ -30,6 +30,7 @@ import Cookies from 'js-cookie';
     const [number_of_coupons, setNumber_of_coupons] = useState('');
     const [number_of_coupons_used ,setNumber_of_coupons_used] = useState('');
     const [reduction, setReduction] = useState('');
+    const [subscriptionLength, setSubscriptionLength] = useState('');
     const token = Cookies.get('token');
 
 
@@ -127,6 +128,7 @@ const obj={filter: {},
             setNumber_of_coupons(res?.data?.number_of_coupons);
             setNumber_of_coupons_used(res?.data?.used_count)
             setReduction(res?.data?.reduction);
+            setSubscriptionLength(res?.data?.subscription_length);
     });
   }
 
@@ -155,6 +157,7 @@ const obj={filter: {},
     formData.append('number_of_coupons', number_of_coupons);
     formData.append('reduction', reduction);
     formData.append('status', 1);
+    if (subscriptionLength) formData.append('subscription_length', subscriptionLength);
     let error = false;
     if (!deckName && !all_Deck ) {
 
@@ -306,6 +309,17 @@ const obj={filter: {},
                              }
                           }} variant="outlined"  />
                             {reductionErr&& <span className='error' style={{color:"red"}} >{reductionErr}</span>}
+                        </Grid>
+                        <Grid container item xs={6} spacing={0}>
+                            <TextField
+                                value={subscriptionLength}
+                                onChange={(e) => setSubscriptionLength(Math.max(e.target.value, 0))}
+                                type="number"
+                                className='w-100'
+                                id="outlined-basic"
+                                label="Subscription length in months (Optional)"
+                                variant="outlined"
+                            />
                         </Grid>
                         <Grid container item xs={6} spacing={0}>
                             <TextField

@@ -3,6 +3,8 @@ import { MainContext } from "../../Context";
 import { withTranslation } from 'react-multi-lang';
 import {toast} from "react-toastify";
 import Dropzone from 'react-dropzone'
+// import Painterro from "painterro";
+import BrushIcon from '@material-ui/icons/Brush';
 
 class AccountPersonal extends Component {
 
@@ -157,6 +159,27 @@ class AccountPersonal extends Component {
         );
     }
 
+    toggleDrawbox(show) {
+        this.props.setShowDrawbox(show);
+        setTimeout(() => {
+            const drawbox = window.Painterro({
+                id: "painterro",
+                defaultTool: "brush",
+                activeColorAlpha: .5,
+                hiddenTools: ["settings"],
+                onClose: () => {
+                    this.props.setShowDrawbox(false);
+                },
+                saveHandler: async (image, done) => {
+                    await this.uploadBackground(image.asBlob());
+                    done(true);
+                    this.props.setShowDrawbox(false);
+                }
+            });
+            show ? drawbox.show() : drawbox.hide();
+        }, 0);
+    }
+
     render() {
         const { t } = this.props;
         return (
@@ -249,6 +272,10 @@ class AccountPersonal extends Component {
                                 </section>
                             )}
                         </Dropzone>
+                        <div className="account_backgrounds-add" onClick={() => this.toggleDrawbox(true)}>
+                            <BrushIcon className="account_backgrounds-draw"/>
+                            <div className="account_background-hint">Draw</div>
+                        </div>
                         {this.renderBackgrounds()}
                     </div>
                 </div>

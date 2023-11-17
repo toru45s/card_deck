@@ -40,7 +40,7 @@ class CouponService {
         return CouponInstance;
     }
     //add coupon
-    static async addCoupon(code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type){
+    static async addCoupon(code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type,subscription_length){
         const exdateNow = new Date(`${expiry_date}`);
         const stdateNow = new Date(`${start_date}`);
 
@@ -55,7 +55,8 @@ class CouponService {
             deck_id: deck_id,
             deck_name: deck_name,
             start_date: stdateNow,
-            code_type: code_type
+            code_type: code_type,
+            subscription_length: subscription_length || null
         });
         const CouponInstance = await Coupons.save().then((result) => {
             return result;
@@ -67,7 +68,7 @@ class CouponService {
     }
 
     // edit coupon
-    static async editCoupon(id,code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type){
+    static async editCoupon(id,code,codeName,reduction,number_of_coupons,expiry_date,status,deck_id,deck_name,start_date,code_type,subscription_length){
 
         const exdateNow = new Date(`${expiry_date}`);
         const stdateNow = new Date(`${start_date}`);
@@ -82,7 +83,8 @@ class CouponService {
             deck_id: deck_id,
             deck_name: deck_name,
             start_date: stdateNow,
-            code_type: code_type
+            code_type: code_type,
+            subscription_length: subscription_length || null
         };
         const CouponInstance = await CouponModel.updateOne({
             _id: id

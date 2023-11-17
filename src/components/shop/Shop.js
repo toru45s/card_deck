@@ -42,7 +42,6 @@ class Shop extends Component {
         const isChecked = localStorage.getItem('isChecked')
         localStorage.setItem('flag', "true");
         this.setState({isChecked });
-        console.log("checkedValue",isChecked)
         const accountWindow = document.getElementById('shop_window');
         accountWindow.addEventListener('showShopDeck', this.showShopDeck);
         this.setState({eula: this.context.user.eula});

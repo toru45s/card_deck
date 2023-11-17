@@ -29,6 +29,7 @@ import Cookies from 'js-cookie';
     const [end_date, setEnd_date] = useState('');
     const [number_of_coupons, setNumber_of_coupons] = useState('');
     const [reduction, setReduction] = useState('');
+    const [subscriptionLength, setSubscriptionLength] = useState(undefined);
 
     const [isErr, setIsErr] = useState(false);
     const[errMsg,setErrMsg]=useState('');
@@ -109,6 +110,7 @@ const obj={filter: {},
     formData.append('number_of_coupons', number_of_coupons);
     formData.append('reduction', reduction);
     formData.append('status', 1);
+    if (subscriptionLength) formData.append('subscription_length', subscriptionLength);
     let error = false;
     if (!deckName && !all_Deck ) {
 
@@ -289,9 +291,17 @@ const obj={filter: {},
  
                         </Grid>
                         
-                        {/* <Grid container item xs={6} spacing={0}>
-                            <TextField className='w-100' id="outlined-basic" label="Number of coupons used" variant="outlined" />
-                        </Grid> */}
+                        <Grid container item xs={12} spacing={0}>
+                            <TextField
+                                value={subscriptionLength}
+                                onChange={(e) => setSubscriptionLength(Math.max(e.target.value, 0))}
+                                type="number"
+                                className='w-100'
+                                id="outlined-basic"
+                                label="Subscription length in months (Optional)"
+                                variant="outlined"
+                            />
+                        </Grid>
                         <Grid container item xs={12} spacing={0}>
                         {/* <Link to={`/coupon`}> */}
                             <Button variant="contained" size="large" color="primary"  style={{marginRight: '16px'}} onClick={()=>handleSubmit()}>submit</Button>

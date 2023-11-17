@@ -15,7 +15,7 @@ class Account extends Component {
     constructor(props){
         super(props);
 
-        this.state = {active_tab: "1", scroll: null};
+        this.state = {active_tab: "1", scroll: null, showDrawbox: false};
 
         this.closeWindow = this.closeWindow.bind(this);
         this.tabChanged = this.tabChanged.bind(this);
@@ -74,10 +74,26 @@ class Account extends Component {
                         }
                         <div className="account_active_tab">
                             {this.state.active_tab === "1" &&
-                            <AccountPersonal logout={this.logOut} openShop={this.props.openShop} closeAccount={this.closeWindow} syncBackgrounds={this.props.syncBackgrounds} />
+                            <AccountPersonal
+                                logout={this.logOut}
+                                openShop={this.props.openShop}
+                                closeAccount={this.closeWindow}
+                                syncBackgrounds={this.props.syncBackgrounds}
+                                showDrawbox={this.state.showDrawbox}
+                                setShowDrawbox={(show) => {
+                                    this.setState(state => ({
+                                        ...state,
+                                        showDrawbox: show,
+                                    }));
+                                }}
+                            />
                             }
                             {this.state.active_tab === "2" &&
-                            <AccountDecks scroll={this.state.scroll} discardScroll={() => this.setState({scroll: null})} tabChanged={ this.tabChanged } />
+                            <AccountDecks
+                                scroll={this.state.scroll}
+                                discardScroll={() => this.setState({scroll: null})}
+                                tabChanged={ this.tabChanged }
+                            />
                             }
                         </div>
                     </div>
@@ -86,6 +102,15 @@ class Account extends Component {
                         <div className="closeButton" onClick={this.closeWindow}>{t('gameplay.close')}</div>
                     </div>
                 </div>
+                {this.state.showDrawbox && <div id="painterro" style={{
+                    position: "fixed",
+                    width: "100%",
+                    height: "100%",
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                }} />}
             </div>
         );
     }

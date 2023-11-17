@@ -26,7 +26,8 @@ const CardCheckout = (props) => {
     const [priceData , setPriceData]= useState([]);
     const [couponData , setCouponData]= useState("");
     let [input , setInput]= useState("");
-    const [newInput,setNewInput]=useState("");    
+    const [newInput,setNewInput]=useState("");
+    const [subscriptionLength, setSubscriptionLength] = useState();
     const token = Cookies.get('token');
     const decoded = jwt_decode(token); 
     // let [noteData,setNoteData]= useState("");
@@ -105,6 +106,7 @@ const CardCheckout = (props) => {
                     if (res) {
                         // add logic here to remove coupon
                         applied = true;
+                        setSubscriptionLength(res?.subscription_length);
                         // setApplied(applied);
                         if(res?.status===0){
                             setIsErr(true);
@@ -183,7 +185,7 @@ const CardCheckout = (props) => {
                 description: "Digital Card Deck",
                 type: "DIGITAL",
                 category: "GAMES",
-            };           
+            };
             const product = await fetch("https://api.paypal.com/v1/catalogs/products", {
                 method: 'post',
                 headers: {
@@ -235,6 +237,12 @@ const CardCheckout = (props) => {
                     percentage: "17.00"
                 };
             }
+
+            if (subscriptionLength) {
+                planData.billing_cycles[0].frequency.interval_unit = "MONTH";
+                planData.billing_cycles[0].total_cycles = subscriptionLength;
+            }
+
             const plan = await fetch("https://api.paypal.com/v1/billing/plans", {
                 method: 'post',
                 headers: {
@@ -462,8 +470,19 @@ const CardCheckout = (props) => {
                                 <div className="td-type">{t('cartCheckout.Total')}</div>
                                 <div className="td-type">${priceData}</div>
                             </div>
+                            {subscriptionLength && <div className="card-box-body">
+                                <div className="td-type">{t('cartCheckout.Sublength')}</div>
+                                <div className="td-type">{subscriptionLength} M</div>
+                            </div>}
                         </div>
-                        <button className="btn-full" onClick={()=>handleCheckout( All_deck?"YEAR": data?.selected_plan , priceData,data?.name?data?.name:"alldeck" )} >{t('cartCheckout.Proceedtocheckout')}</button>                        
+                        <button
+                            className="btn-full"
+                            onClick={()=> handleCheckout(
+                                All_deck ? "YEAR" : data?.selected_plan,
+                                priceData,
+                                data?.name ? data?.name : "alldeck"
+                            )}
+                        >{t('cartCheckout.Proceedtocheckout')}</button>
                     </div>
                     
                 </div>

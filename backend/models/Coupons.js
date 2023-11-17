@@ -50,6 +50,10 @@ const CouponsSchema = new Schema({
     },
     status: {
         type: String
+    },
+    subscription_length: {
+        type: Number,
+        default: null
     }
 
 },{ timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }});
