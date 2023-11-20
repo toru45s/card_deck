@@ -58,6 +58,7 @@ class Gameplay extends Component {
       onConfirm: () => {},
       hideDecksAndMenu: false,
       froalaControls: null,
+      showDrawbox: false,
     };
     this.render = this.render.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
@@ -118,6 +119,31 @@ class Gameplay extends Component {
     document.addEventListener("mousedown", this.onMouseDown);
     document.addEventListener("touchstart", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
+    document.addEventListener("showDrawbox", () => {
+      deckContainer.style.transform = "translateX(-60%) translateY(10%)";
+      // const deckContainer = document.getElementById("deck-container");
+      // deckContainer.style.transform = "none";
+      // deckContainer.style.marginLeft = "0%";
+      // deckContainer.style.top = this.state.bgPosition.y + "px";
+      // deckContainer.style.left = this.state.bgPosition.x + "px";
+      const deckSelector = document.getElementById("deck-selectors_wrapper");
+      deckSelector.classList.add("minimized");
+      const bgControls = document.getElementById("bottom_right");
+      bgControls.style.display = "none";
+      this.setState({ showDrawbox: true })
+    });
+    document.addEventListener("hideDrawbox", () => {
+      // const deckContainer = document.getElementById("deck-container");
+      deckContainer.style.transform = "translateX(-50%) translateY(10%)";
+      // deckContainer.style.marginLeft = "60%";
+      // deckContainer.style.top = this.state.bgPosition.y + "px";
+      // deckContainer.style.left = this.state.bgPosition.x + "px";
+      const deckSelector = document.getElementById("deck-selectors_wrapper");
+      deckSelector.classList.remove("minimized");
+      const bgControls = document.getElementById("bottom_right");
+      bgControls.style.display = "flex";
+      this.setState({ showDrawbox: false })
+    });
     deckContainer.addEventListener("wheel", this.scroll);
     deckContainer.addEventListener("cardMoved", this.cardMoved);
     deckContainer.addEventListener("cardPlaced", this.cardPlaced);
@@ -2134,6 +2160,7 @@ class Gameplay extends Component {
   }
 
   zoomMinus() {
+    if (this.state.showDrawbox) return;
     const deckContainer = document.getElementById("deck-container");
     const scaleX =
       deckContainer.getBoundingClientRect().width / deckContainer.offsetWidth;
@@ -2145,6 +2172,7 @@ class Gameplay extends Component {
   }
 
   zoomPlus() {
+    if (this.state.showDrawbox) return;
     const deckContainer = document.getElementById("deck-container");
     const scaleX =
       deckContainer.getBoundingClientRect().width / deckContainer.offsetWidth;
@@ -2390,10 +2418,19 @@ class Gameplay extends Component {
           style={{ top: "calc(50% + 100px)" }}
         >
           <div id="backgrounds">
-            {this.context.user.backgrounds.map(function (background, i) {
+            {this.state.showDrawbox ? <div id="painterro" style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+            }} /> : this.context.user.backgrounds.map(function (background, i) {
               return (
                 <img
                   src={background}
+                  alt="background"
                   className={
                     this.context.user.backgrounds.length === i + 1 &&
                     (!this.state.activeDecks.length ||

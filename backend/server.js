@@ -24,8 +24,8 @@ app
     .use(router.allowedMethods());
 
 const options = {
-     key: fs.readFileSync(process.env.ROOT_PATH + '/backend/ssl/key.key', 'utf8'),
-     cert: fs.readFileSync(process.env.ROOT_PATH + '/backend/ssl/certificate.crt', 'utf8')
+    key: fs.readFileSync('/etc/letsencrypt/live/cardtherapy.online-0001/privkey.pem', 'utf8'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/cardtherapy.online-0001/cert.pem', 'utf8')
 };
 
 const server = https.createServer(options,app.callback());

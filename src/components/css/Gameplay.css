@@ -52,6 +52,7 @@
     width: 3.875rem;
     height: 5.5rem;
     margin:70px;
+    z-index: 12;
 }
 .deck-buttons {
     left: -4rem;
@@ -654,6 +655,12 @@
     margin-top:-30px;
     margin-bottom: 50px;
     color: #828282;
+}
+.ptro-scroller {
+    overflow:hidden !important;
+}
+#painterro-bar {
+    z-index:1002;
 }
 @media (max-width: 1200px) {
     .session_option:first-of-type {

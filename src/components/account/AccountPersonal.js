@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { MainContext } from "../../Context";
 import { withTranslation } from 'react-multi-lang';
 import {toast} from "react-toastify";
-import Dropzone from 'react-dropzone'
-// import Painterro from "painterro";
+import Dropzone from 'react-dropzone';
 import BrushIcon from '@material-ui/icons/Brush';
 
 class AccountPersonal extends Component {
@@ -166,14 +165,21 @@ class AccountPersonal extends Component {
                 id: "painterro",
                 defaultTool: "brush",
                 activeColorAlpha: .5,
-                hiddenTools: ["settings"],
+                backgroundFillColor: "#F1F3F6",
+                pixelizePixelSize: "10%",
+                hiddenTools: ["settings", "resize", "crop", "rotate", "zoomin", "zoomout"],
+                defaultSize: "2560x1440",
                 onClose: () => {
                     this.props.setShowDrawbox(false);
+                    const toolbar = document.getElementById("painterro-bar");
+                    toolbar.remove();
                 },
                 saveHandler: async (image, done) => {
                     await this.uploadBackground(image.asBlob());
                     done(true);
                     this.props.setShowDrawbox(false);
+                    const toolbar = document.getElementById("painterro-bar");
+                    toolbar.remove();
                 }
             });
             show ? drawbox.show() : drawbox.hide();

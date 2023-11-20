@@ -85,6 +85,8 @@ class Account extends Component {
                                         ...state,
                                         showDrawbox: show,
                                     }));
+                                    this.closeWindow();
+                                    document.dispatchEvent(new CustomEvent(show ? 'showDrawbox' : 'hideDrawbox'));
                                 }}
                             />
                             }
@@ -102,15 +104,6 @@ class Account extends Component {
                         <div className="closeButton" onClick={this.closeWindow}>{t('gameplay.close')}</div>
                     </div>
                 </div>
-                {this.state.showDrawbox && <div id="painterro" style={{
-                    position: "fixed",
-                    width: "100%",
-                    height: "100%",
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                }} />}
             </div>
         );
     }
