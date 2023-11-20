@@ -284,7 +284,7 @@ class AccountPersonal extends Component {
                         </Dropzone>
                         <div className="account_backgrounds-add" onClick={() => this.toggleDrawbox(true)}>
                             <BrushIcon className="account_backgrounds-draw"/>
-                            <div className="account_background-hint">Draw</div>
+                            <div className="account_background-hint">{t('gameplay.account_draw_backgrounds_hint')}</div>
                         </div>
                         {this.renderBackgrounds()}
                     </div>
