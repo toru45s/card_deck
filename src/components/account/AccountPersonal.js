@@ -114,6 +114,9 @@ class AccountPersonal extends Component {
             this.setState({backgrounds: json});
             this.context.methods.setBackgrounds(json);
             this.props.syncBackgrounds(json);
+            setTimeout(() => {
+                this.props.activateBG(json[json.length - 1]);
+            }, 0);
         } catch (err) {
             console.log(err);
             toast.error(t('errors.gameplay.background_upload_error'));
@@ -175,6 +178,7 @@ class AccountPersonal extends Component {
                     toolbar.remove();
                 },
                 saveHandler: async (image, done) => {
+                    console.log(image);
                     await this.uploadBackground(image.asBlob());
                     done(true);
                     this.props.setShowDrawbox(false);

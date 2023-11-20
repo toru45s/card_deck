@@ -79,6 +79,7 @@ class Account extends Component {
                                 openShop={this.props.openShop}
                                 closeAccount={this.closeWindow}
                                 syncBackgrounds={this.props.syncBackgrounds}
+                                activateBG={this.props.activateBG}
                                 showDrawbox={this.state.showDrawbox}
                                 setShowDrawbox={(show) => {
                                     this.setState(state => ({

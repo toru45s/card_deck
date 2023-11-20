@@ -121,11 +121,6 @@ class Gameplay extends Component {
     document.addEventListener("keydown", this.onKeyDown);
     document.addEventListener("showDrawbox", () => {
       deckContainer.style.transform = "translateX(-60%) translateY(10%)";
-      // const deckContainer = document.getElementById("deck-container");
-      // deckContainer.style.transform = "none";
-      // deckContainer.style.marginLeft = "0%";
-      // deckContainer.style.top = this.state.bgPosition.y + "px";
-      // deckContainer.style.left = this.state.bgPosition.x + "px";
       const deckSelector = document.getElementById("deck-selectors_wrapper");
       deckSelector.classList.add("minimized");
       const bgControls = document.getElementById("bottom_right");
@@ -133,11 +128,7 @@ class Gameplay extends Component {
       this.setState({ showDrawbox: true })
     });
     document.addEventListener("hideDrawbox", () => {
-      // const deckContainer = document.getElementById("deck-container");
       deckContainer.style.transform = "translateX(-50%) translateY(10%)";
-      // deckContainer.style.marginLeft = "60%";
-      // deckContainer.style.top = this.state.bgPosition.y + "px";
-      // deckContainer.style.left = this.state.bgPosition.x + "px";
       const deckSelector = document.getElementById("deck-selectors_wrapper");
       deckSelector.classList.remove("minimized");
       const bgControls = document.getElementById("bottom_right");
@@ -2474,6 +2465,13 @@ class Gameplay extends Component {
             openShop={this.shop.bind(this)}
             closeAccountWindow={this.closeAccountWindow.bind(this)}
             syncBackgrounds={this.backgroundsUpdate}
+            activateBG={(src) => {
+              this.activateBG(src);
+              this.state.socket.emit("activateBG", {
+                userId: this.context.user.id,
+                background: src,
+              });
+            }}
           />
           {!this.context.user.guest && (
             <>
