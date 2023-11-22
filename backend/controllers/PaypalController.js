@@ -2,6 +2,8 @@
 const TransactionService = require('../services/TransactionService');
 const UserService = require('../services/UserService');
 const axios = require('axios');
+const {ObjectID} = require("mongodb");
+const DeckService = require("../services/DeckService");
 
 class PaypalController {
 
@@ -59,6 +61,35 @@ class PaypalController {
         }
 
         ctx.body = {success: true};
+    }
+
+    static async freeTransaction(ctx) {
+        const {user_id, coupon_id, deck_name, deck_id, interval} = ctx.request.body;
+        const User = await UserService.getUserById(new ObjectID(user_id));
+        if (coupon_id) {
+            // enable the purchased deck for the user
+            const transactionDate = new Date();
+            if (deck_name === "all") {
+                User.fullSubscription = transactionDate.setFullYear(transactionDate.getFullYear() + 1);
+                User.save();
+            } else {
+                const deckIndex = User.decks.findIndex(x => x._id == deck_id);
+                const paidUntil = (interval === 'YEAR') ? transactionDate.setFullYear(transactionDate.getFullYear() + 1) : transactionDate.setMonth(transactionDate.getMonth() + 1);
+
+                if (deckIndex >= 0) {
+                    User.decks[deckIndex].subscribedUntil = paidUntil;
+                    User.markModified('decks');
+
+                    await User.save();
+                } else {
+                    const Deck = await DeckService.getDeckById(new ObjectID(deck_id));
+                    Deck.subscribedUntil = paidUntil;
+
+                    await DeckService.addDeck(User, Deck);
+                }
+            }
+            ctx.body = {success: true};
+        }
     }
 
 }

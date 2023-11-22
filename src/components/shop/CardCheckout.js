@@ -6,10 +6,10 @@ import backArrow from './../img/back-arrow.png';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import jwt_decode from "jwt-decode";
-import jwt from 'jsonwebtoken';
 import { withTranslation } from 'react-multi-lang';
 import globalRequestAxios from '../../GlobalModules/globalRequestAxios';
 import Loader from './Loader';
+import { toast } from "react-toastify";
 
 const CardCheckout = (props) => {
     
@@ -171,7 +171,28 @@ const CardCheckout = (props) => {
         }
 
         
-        const handleCheckout= async(interval,price,deck_name)=>{
+        const handleCheckout= async(interval,price,deck_name,deck_id)=>{
+            if (price === "0.00") {
+                await fetch(process.env.REACT_APP_DOMAIN + ":" + process.env.REACT_APP_NODE_PORT + "/freeTransaction", {
+                    method: 'post',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-access-token": token
+                    },
+                    body: JSON.stringify({
+                        interval,
+                        deck_name,
+                        deck_id,
+                        user_id: decoded?.id,
+                        coupon_id: couponId,
+                    })
+                });
+
+                props.closeCheckout();
+                toast.success(t('cartCheckout.AppliedCoupon'));
+                window.location.reload();
+                return;
+            }
             if(!applied){
             setInput('')
             setIsErr(false);
@@ -480,7 +501,8 @@ const CardCheckout = (props) => {
                             onClick={()=> handleCheckout(
                                 All_deck ? "YEAR" : data?.selected_plan,
                                 priceData,
-                                data?.name ? data?.name : "alldeck"
+                                data?.name ? data?.name : "alldeck",
+                                data?.id,
                             )}
                         >{t('cartCheckout.Proceedtocheckout')}</button>
                     </div>

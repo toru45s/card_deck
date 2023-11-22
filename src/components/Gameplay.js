@@ -120,17 +120,13 @@ class Gameplay extends Component {
     document.addEventListener("touchstart", this.onMouseDown);
     document.addEventListener("keydown", this.onKeyDown);
     document.addEventListener("showDrawbox", () => {
-      deckContainer.style.transform = "translateX(-60%) translateY(10%)";
-      const deckSelector = document.getElementById("deck-selectors_wrapper");
-      deckSelector.classList.add("minimized");
+      deckContainer.style.transform = "translateX(-50%) translateY(10%)";
       const bgControls = document.getElementById("bottom_right");
       bgControls.style.display = "none";
       this.setState({ showDrawbox: true })
     });
     document.addEventListener("hideDrawbox", () => {
       deckContainer.style.transform = "translateX(-50%) translateY(10%)";
-      const deckSelector = document.getElementById("deck-selectors_wrapper");
-      deckSelector.classList.remove("minimized");
       const bgControls = document.getElementById("bottom_right");
       bgControls.style.display = "flex";
       this.setState({ showDrawbox: false })

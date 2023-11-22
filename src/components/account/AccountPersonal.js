@@ -168,7 +168,7 @@ class AccountPersonal extends Component {
                 id: "painterro",
                 defaultTool: "brush",
                 activeColorAlpha: .5,
-                backgroundFillColor: "#F1F3F6",
+                backgroundFillColor: "#FFFFFF",
                 pixelizePixelSize: "10%",
                 hiddenTools: ["settings", "resize", "crop", "rotate", "zoomin", "zoomout"],
                 defaultSize: "2560x1440",
