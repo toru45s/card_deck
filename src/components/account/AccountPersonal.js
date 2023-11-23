@@ -176,6 +176,8 @@ class AccountPersonal extends Component {
                     this.props.setShowDrawbox(false);
                     const toolbar = document.getElementById("painterro-bar");
                     toolbar.remove();
+                    const colorPicker = document.querySelector('.ptro-color-widget-wrapper');
+                    colorPicker.remove();
                 },
                 saveHandler: async (image, done) => {
                     console.log(image);
@@ -184,6 +186,8 @@ class AccountPersonal extends Component {
                     this.props.setShowDrawbox(false);
                     const toolbar = document.getElementById("painterro-bar");
                     toolbar.remove();
+                    const colorPicker = document.querySelector('.ptro-color-widget-wrapper');
+                    colorPicker.remove();
                 }
             });
             show ? drawbox.show() : drawbox.hide();
