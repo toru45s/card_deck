@@ -4,6 +4,7 @@ const UserService = require('../services/UserService');
 const axios = require('axios');
 const {ObjectID} = require("mongodb");
 const DeckService = require("../services/DeckService");
+const CouponsService = require("../services/CouponService");
 
 class PaypalController {
 
@@ -67,14 +68,25 @@ class PaypalController {
         const {user_id, coupon_id, deck_name, deck_id, interval} = ctx.request.body;
         const User = await UserService.getUserById(new ObjectID(user_id));
         if (coupon_id) {
+            const coupon = await CouponsService.getCouponbyid(coupon_id);
+            if (!coupon) return;
             // enable the purchased deck for the user
             const transactionDate = new Date();
-            if (deck_name === "all") {
-                User.fullSubscription = transactionDate.setFullYear(transactionDate.getFullYear() + 1);
+            if (deck_name === "alldeck") {
+                if (coupon.subscription_length > 0) {
+                    User.fullSubscription = transactionDate.setMonth(transactionDate.getMonth() + coupon.subscription_length);
+                } else {
+                    User.fullSubscription = transactionDate.setFullYear(transactionDate.getFullYear() + 1);
+                }
                 User.save();
             } else {
                 const deckIndex = User.decks.findIndex(x => x._id == deck_id);
-                const paidUntil = (interval === 'YEAR') ? transactionDate.setFullYear(transactionDate.getFullYear() + 1) : transactionDate.setMonth(transactionDate.getMonth() + 1);
+                let paidUntil;
+                if (coupon.subscription_length > 0) {
+                    paidUntil = transactionDate.setMonth(transactionDate.getMonth() + coupon.subscription_length);
+                } else {
+                    paidUntil = (interval === 'YEAR') ? transactionDate.setFullYear(transactionDate.getFullYear() + 1) : transactionDate.setMonth(transactionDate.getMonth() + 1);
+                }
 
                 if (deckIndex >= 0) {
                     User.decks[deckIndex].subscribedUntil = paidUntil;
