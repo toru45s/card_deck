@@ -143,8 +143,6 @@ class CouponController {
            // ctx.throw(400, "Coupon is only for yearly plan");
         }
         const couponInstance = await CouponsService.getCouponbycode(code);
-        const couponCount = await CouponsService.getTransactionbycode(couponInstance._id)
-        // console.log('fgyf',couponCount);
         if(couponInstance == null){
             const value ={
                 status:0,
@@ -154,6 +152,7 @@ class CouponController {
             return false;
             //ctx.throw(400, "Coupon not found");
         }
+        const couponCount = await CouponsService.getTransactionbycode(couponInstance._id);
         if(couponInstance.status == 'inactive'){
             const value ={
                 status:0,
