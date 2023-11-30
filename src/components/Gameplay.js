@@ -105,6 +105,8 @@ class Gameplay extends Component {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.handleFroalaEditor = this.handleFroalaEditor.bind(this);
     this.resetBG = this.resetBG.bind(this);
+    this.zoomMinus = this.zoomMinus.bind(this);
+    this.zoomPlus = this.zoomPlus.bind(this);
 
     this.refClientName = React.createRef();
     this.refClientNameLoad = React.createRef();
@@ -2147,7 +2149,7 @@ class Gameplay extends Component {
   }
 
   zoomMinus() {
-    if (this.state.showDrawbox) return;
+    if (this?.state?.showDrawbox) return;
     const deckContainer = document.getElementById("deck-container");
     const scaleX =
       deckContainer.getBoundingClientRect().width / deckContainer.offsetWidth;
@@ -2159,7 +2161,7 @@ class Gameplay extends Component {
   }
 
   zoomPlus() {
-    if (this.state.showDrawbox) return;
+    if (this?.state?.showDrawbox) return;
     const deckContainer = document.getElementById("deck-container");
     const scaleX =
       deckContainer.getBoundingClientRect().width / deckContainer.offsetWidth;
