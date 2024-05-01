@@ -237,6 +237,11 @@ class Gameplay extends Component {
             },
           }
         );
+        if (response.status === 403) {
+          this.logOut();
+          toast.error(t('errors.auth.token_expired'));
+          return;
+        }
         if (!response.ok) {
           throw Error(response.statusText);
         }
@@ -450,13 +455,13 @@ class Gameplay extends Component {
     }
     if (
       (stage.getBoundingClientRect().right <=
-        stage.getBoundingClientRect().width / 2 &&
+        stage.getBoundingClientRect().width / 2 / scale &&
         stage.getBoundingClientRect().left <=
-          stage.getBoundingClientRect().width &&
+          stage.getBoundingClientRect().width / scale &&
         newX < this.state.bgPosition.x) ||
       (stage.getBoundingClientRect().left >= 250 &&
         stage.getBoundingClientRect().right >=
-          stage.getBoundingClientRect().width - 250 &&
+          stage.getBoundingClientRect().width / scale - 250 &&
         newX > this.state.bgPosition.x)
     ) {
       newX = this.state.bgPosition.x;
@@ -548,9 +553,15 @@ class Gameplay extends Component {
   }
 
   syncCard(card) {
+    const stage = document.getElementById('deck-container');
     this.state.activeDecks.forEach(function (activeDeck) {
       activeDeck.cards.forEach(function (activeCard) {
         if (activeCard.id === card.element.id) {
+          if (activeCard.$el.parentNode.id !== "deck-container") {
+            stage.append(activeCard.$el);
+          } else if (card.element.x < 0 || card.element.y < 0) {
+            activeDeck.$el.prepend(activeCard.$el);
+          }
           activeCard.animateTo({
             delay: 2,
             duration: 500,
@@ -631,6 +642,10 @@ class Gameplay extends Component {
           const actionClone = { ...action.card };
           actionClone.x = action.position.x;
           actionClone.y = action.position.y;
+          if (actionClone.x < 0 || actionClone.y < 0) {
+            const targetDeck = document.querySelector(`.deck[data-id="${action.card.deck_id}"]`);
+            targetDeck.prepend(action.card.$el);
+          }
           this.cardPlaced({ detail: { element: actionClone } });
           break;
         case "addDeck":
@@ -826,7 +841,7 @@ class Gameplay extends Component {
 
   renderDeck(deck) {
     const $this = this;
-    const deckContainer = document.getElementById("deck-container");
+    const deckContainer = document.getElementById("deck-bar");
     deck.cards.forEach(function (card) {
       $this.state.allDecks.forEach(function (allDeck) {
         const userCard = allDeck.cards.find(
@@ -2024,8 +2039,10 @@ class Gameplay extends Component {
 
     this.setState({ activeDecks: activeDecks });
     this.removeBackgrounds(deck2remove.backgrounds);
+    deck2remove.cards.forEach((card) => card.$el.remove());
     deck2remove.unmount();
     this.resetBG();
+
 
     const deckPanel = document.getElementById("deck-selectors_wrapper");
 
@@ -2106,6 +2123,13 @@ class Gameplay extends Component {
         <div id="navigation" className="step_5">
           <button
             type="button"
+            id="decks_button"
+            onClick={this.toggleDeckSelectors}
+          >
+            {t("gameplay.decks")}
+          </button>
+          <button
+            type="button"
             style={{ border: "0px solid red" }}
             id="account_button"
             onClick={this.shop}
@@ -2151,25 +2175,27 @@ class Gameplay extends Component {
   zoomMinus() {
     if (this?.state?.showDrawbox) return;
     const deckContainer = document.getElementById("deck-container");
+    const deckBar = document.getElementById("deck-bar");
     const scaleX =
       deckContainer.getBoundingClientRect().width / deckContainer.offsetWidth;
     const newscale = Math.max(scaleX - 0.1, 0.3);
     deckContainer.style.transform =
       "scale(" + newscale + ") translateX(-50%) translateY(10%)";
-    deckContainer.style.webkitTransform =
-      "scale(" + newscale + ") translateX(-50%) translateY(10%)";
+    deckBar.style.transform = "scale(" + newscale + ")";
+    deckBar.style.bottom = (newscale > 1 ? 40 * newscale : 10) + "px";
   }
 
   zoomPlus() {
     if (this?.state?.showDrawbox) return;
     const deckContainer = document.getElementById("deck-container");
+    const deckBar = document.getElementById("deck-bar");
     const scaleX =
       deckContainer.getBoundingClientRect().width / deckContainer.offsetWidth;
     const newscale = scaleX + 0.1;
     deckContainer.style.transform =
       "scale(" + newscale + ") translateX(-50%) translateY(10%)";
-    deckContainer.style.webkitTransform =
-      "scale(" + newscale + ") translateX(-50%) translateY(10%)";
+    deckBar.style.transform = "scale(" + newscale + ")";
+    deckBar.style.bottom = (newscale > 1 ? 40 * newscale : 10) + "px";
   }
 
   zoomReset() {
@@ -2257,7 +2283,8 @@ class Gameplay extends Component {
     if (tutorialStep === 0 && this.props.tutorialIsOpen) {
       this.props.tutorialNextStep();
     } else {
-      e.target.parentNode.parentNode.classList.toggle("minimized");
+      const deckSelectorsWrapper = document.getElementById("deck-selectors_wrapper");
+      deckSelectorsWrapper.classList.toggle("minimized");
     }
 
     if (this.state.showDeckHint) {
@@ -2291,199 +2318,209 @@ class Gameplay extends Component {
       ? "cardboard minimal"
       : "cardboard";
     return (
-      <div className={cardboardClasslist}>
-        <ConfirmPrompt
-          open={this.state.confirmOpen}
-          title={this.state.confirmTitle}
-          onClose={() => this.setState({ confirmOpen: false })}
-          onConfirm={this.state.onConfirm}
-        />
-        {this.state.hideDecksAndMenu && (
-          <div
-            className="unminify"
-            onClick={() => this.setState({ hideDecksAndMenu: false })}
-          >
-            {t("gameplay.unhide")}
-          </div>
-        )}
-        <div className="gameHeader">
-          {this.navigationButtons()}
-          <div id="manipulation" className="step_3">
-            {!this.context.user.guest && (
-              <button
-                type="button"
-                onClick={this.account}
-                id="account_open"
-                title={t("gameplay.account")}
-              >
-                {t("gameplay.hi") + this.context.user.username}
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={this.zoomMinus}
-              title={t("gameplay.zoom_out")}
-              id="zoom-minus"
-            />
-            <button
-              type="button"
-              onClick={this.zoomPlus}
-              title={t("gameplay.zoom_in")}
-              id="zoom-plus"
-            />
-            <button
-              type="button"
-              onClick={this.toggleFullscreen}
-              title={t("gameplay.fullscreen")}
-              id="zoom-reset"
-            />
-            <button
-              type="button"
-              onClick={() => this.setState({ hideDecksAndMenu: true })}
-              title={t("gameplay.hide_decks_and_menu")}
-              id="hide-decks_and_menu"
-            />
-            {!this.context.user.guest && (
-              <button
-                type="button"
-                onClick={this.logOut}
-                id="logout"
-                title={t("gameplay.logout")}
-              />
-            )}
-          </div>
-          <Lang />
-        </div>
-        {!this.context.user.guest && (
-          <div id="deck-selectors_wrapper" className="step_1">
-            <div id="deck-selectors">
-              <div id="searchDecks">
-                <input
-                  type="text"
-                  name="searchDecks"
-                  value={this.state.deckFilter}
-                  onChange={this.filterDecksList}
-                  placeholder={t("gameplay.search_decks")}
-                />
-              </div>
+        <div className={cardboardClasslist}>
+          <ConfirmPrompt
+              open={this.state.confirmOpen}
+              title={this.state.confirmTitle}
+              onClose={() => this.setState({confirmOpen: false})}
+              onConfirm={this.state.onConfirm}
+          />
+          {this.state.hideDecksAndMenu && (
               <div
-                className="mobile_minimize step_0"
-                onClick={this.toggleDeckSelectors}
-                title={t("gameplay.toggle_deck_selector")}
-              />
-              {this.renderDeckSelectors()}
-              <Tour
-                isOpen={this.state.showDeckHint}
-                steps={this.state.deckHintSteps}
-                showNavigation={false}
-                showNumber={false}
-                maskSpace={2}
-                showButtons={false}
-                disableFocusLock={true}
-                onRequestClose={this.hideDeckHint}
-                highlightedMaskClassName="deckHint"
+                  className="unminify"
+                  onClick={() => this.setState({hideDecksAndMenu: false})}
+              >
+                {t("gameplay.unhide")}
+              </div>
+          )}
+          <div className="gameHeader">
+            {this.navigationButtons()}
+            <div id="manipulation" className="step_3">
+              {!this.context.user.guest && (
+                  <button
+                      type="button"
+                      onClick={this.account}
+                      id="account_open"
+                      title={t("gameplay.account")}
+                  >
+                    {t("gameplay.hi") + this.context.user.username}
+                  </button>
+              )}
+              <button
+                  type="button"
+                  onClick={this.zoomMinus}
+                  title={t("gameplay.zoom_out")}
+                  id="zoom-minus"
               />
               <button
-                type="button"
-                id="cleanboard"
-                onClick={() =>
-                  this.setState({
-                    confirmOpen: true,
-                    confirmTitle: t("gameplay.remove_confirm"),
-                    onConfirm: () => {
-                      this.cleanBoard();
-                    },
-                  })
-                }
-              >
-                {t("gameplay.clean_board")}
-              </button>
+                  type="button"
+                  onClick={this.zoomPlus}
+                  title={t("gameplay.zoom_in")}
+                  id="zoom-plus"
+              />
+              <button
+                  type="button"
+                  onClick={this.toggleFullscreen}
+                  title={t("gameplay.fullscreen")}
+                  id="zoom-reset"
+              />
+              <button
+                  type="button"
+                  onClick={() => this.setState({hideDecksAndMenu: true})}
+                  title={t("gameplay.hide_decks_and_menu")}
+                  id="hide-decks_and_menu"
+              />
+              {!this.context.user.guest && (
+                  <button
+                      type="button"
+                      onClick={this.logOut}
+                      id="logout"
+                      title={t("gameplay.logout")}
+                  />
+              )}
+            </div>
+            <Lang/>
+          </div>
+          {!this.context.user.guest && (
+              <div id="deck-selectors_wrapper" className="step_1">
+                <div id="deck-selectors">
+                  <div id="searchDecks">
+                    <input
+                        type="text"
+                        name="searchDecks"
+                        value={this.state.deckFilter}
+                        onChange={this.filterDecksList}
+                        placeholder={t("gameplay.search_decks")}
+                    />
+                  </div>
+                  <div
+                      className="mobile_minimize step_0"
+                      onClick={this.toggleDeckSelectors}
+                      title={t("gameplay.toggle_deck_selector")}
+                  />
+                  {this.renderDeckSelectors()}
+                  <Tour
+                      isOpen={this.state.showDeckHint}
+                      steps={this.state.deckHintSteps}
+                      showNavigation={false}
+                      showNumber={false}
+                      maskSpace={2}
+                      showButtons={false}
+                      disableFocusLock={true}
+                      onRequestClose={this.hideDeckHint}
+                      highlightedMaskClassName="deckHint"
+                  />
+                  <button
+                      type="button"
+                      id="cleanboard"
+                      onClick={() =>
+                          this.setState({
+                            confirmOpen: true,
+                            confirmTitle: t("gameplay.remove_confirm"),
+                            onConfirm: () => {
+                              this.cleanBoard();
+                            },
+                          })
+                      }
+                  >
+                    {t("gameplay.clean_board")}
+                  </button>
+                </div>
+              </div>
+          )}
+          <div
+              className="deck-wrapper"
+              id="deck-container"
+              style={{top: "calc(50% + 100px)"}}
+          >
+            <div id="backgrounds">
+              {this.state.showDrawbox ? <div id="painterro" style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+              }}/> : this.context.user.backgrounds.map(function (background, i) {
+                return (
+                    <img
+                        src={background}
+                        alt="background"
+                        className={
+                          this.context.user.backgrounds.length === i + 1 &&
+                          (!this.state.activeDecks.length ||
+                              !this.state.activeDecks.find((x) => x.backgrounds.length))
+                              ? "active"
+                              : ""
+                        }
+                    />
+                );
+              }, this)}
             </div>
           </div>
-        )}
-        <div
-          className="deck-wrapper"
-          id="deck-container"
-          style={{ top: "calc(50% + 100px)" }}
-        >
-          <div id="backgrounds">
-            {this.state.showDrawbox ? <div id="painterro" style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-            }} /> : this.context.user.backgrounds.map(function (background, i) {
-              return (
-                <img
-                  src={background}
-                  alt="background"
-                  className={
-                    this.context.user.backgrounds.length === i + 1 &&
-                    (!this.state.activeDecks.length ||
-                      !this.state.activeDecks.find((x) => x.backgrounds.length))
-                      ? "active"
-                      : ""
-                  }
-                />
-              );
-            }, this)}
-          </div>
-        </div>
-        <div id="bottom_right" className="step_4">
-          <div
-            className="addBackgroundsButton"
-            onClick={this.account}
-            title={t("gameplay.upload_backgrounds")}
-          />
-          <div id="background-buttons">
-            {this.context.user.backgrounds.length > 1 ||
-            this.state.activeDecks.length > 1 ||
-            this.state.activeDecks.length +
+          <div id={"deck-bar"} style={{
+            display: "flex",
+            justifyContent: "center",
+            bottom: 10,
+            left: 10,
+            right: 10,
+            position: "fixed",
+            margin: "auto",
+            width: "fit-content",
+          }}/>
+          <div id="bottom_right" className="step_4">
+            <div
+                className="addBackgroundsButton"
+                onClick={this.account}
+                title={t("gameplay.upload_backgrounds")}
+            />
+            <div id="background-buttons">
+              {this.context.user.backgrounds.length > 1 ||
+              this.state.activeDecks.length > 1 ||
+              this.state.activeDecks.length +
               this.context.user.backgrounds.length >
               1
-              ? this.showBackgroundButtons()
-              : this.hideBackgroundButtons()}
+                  ? this.showBackgroundButtons()
+                  : this.hideBackgroundButtons()}
+            </div>
+          </div>
+          <div>
+            {!this.context.user.guest && (
+                <Shop
+                    windowState={this.state.shop}
+                    socket={this.state.socket}
+                    closeShopWindow={this.closeShopWindow.bind(this)}
+                    showModal={this.showModal.bind(this)}
+                />
+            )}
+            <Account
+                windowState={this.state.account}
+                socket={this.state.socket}
+                openShop={this.shop.bind(this)}
+                closeAccountWindow={this.closeAccountWindow.bind(this)}
+                syncBackgrounds={this.backgroundsUpdate}
+                activateBG={(src) => {
+                  this.activateBG(src);
+                  this.state.socket.emit("activateBG", {
+                    userId: this.context.user.id,
+                    background: src,
+                  });
+                }}
+            />
+            {!this.context.user.guest && (
+                <>
+                  <DeckStarter
+                      windowState={this.state.deckStarter}
+                      openShop={this.shop.bind(this)}
+                      addDeck={this.addDeck.bind(this)}
+                      closeWindow={this.closeDeckStarter.bind(this)}
+                  />
+                  <TrialEndedMessage/>
+                </>
+            )}
           </div>
         </div>
-        <div>
-          {!this.context.user.guest && (
-            <Shop
-              windowState={this.state.shop}
-              socket={this.state.socket}
-              closeShopWindow={this.closeShopWindow.bind(this)}
-              showModal={this.showModal.bind(this)}
-            />
-          )}
-          <Account
-            windowState={this.state.account}
-            socket={this.state.socket}
-            openShop={this.shop.bind(this)}
-            closeAccountWindow={this.closeAccountWindow.bind(this)}
-            syncBackgrounds={this.backgroundsUpdate}
-            activateBG={(src) => {
-              this.activateBG(src);
-              this.state.socket.emit("activateBG", {
-                userId: this.context.user.id,
-                background: src,
-              });
-            }}
-          />
-          {!this.context.user.guest && (
-            <>
-              <DeckStarter
-                windowState={this.state.deckStarter}
-                openShop={this.shop.bind(this)}
-                addDeck={this.addDeck.bind(this)}
-                closeWindow={this.closeDeckStarter.bind(this)}
-              />
-              <TrialEndedMessage />
-            </>
-          )}
-        </div>
-      </div>
     );
   }
 }

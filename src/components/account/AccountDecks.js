@@ -78,7 +78,7 @@ class AccountDecks extends Component {
                     "x-access-token": this.context.user.token
                 }
             });
-            if (!response.ok) {
+            if (!response.ok && response.status !== 403) {
                 throw Error(response.statusText);
             }
             const json = await response.json();
@@ -87,6 +87,7 @@ class AccountDecks extends Component {
                 this.setState({decks: json});
             }
         } catch (err) {
+            console.log("this 2");
             toast.error(t('errors.gameplay.fetch_decks'));
         }
     }

@@ -62,13 +62,14 @@ class ShopDecks extends Component {
                     "x-access-token": this.context.user.token
                 }
             });
-            if (!response.ok) {
+            if (!response.ok && response.status !== 403) {
                 throw Error(response.statusText);
-            }
-            const json = await response.json();
+            } else if (response.ok) {
+                const json = await response.json();
 
-            if (json.length > 0) {
-                this.setState({decks: json});
+                if (json.length > 0) {
+                    this.setState({decks: json});
+                }
             }
         } catch (err) {
             toast.error(t('errors.gameplay.fetch_decks'));

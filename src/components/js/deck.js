@@ -168,7 +168,7 @@ var Deck = (function () {
     var wrapper = createElement('div');
     wrapper.className = 'card_wrapper';
     $el.appendChild(wrapper);
-    $el.setAttribute('data-id', card._id);
+    $el.setAttribute('data-id', card._id || card.id);
     var $face = createElement('div');
     var $back = createElement('div');
     const $backimg = createElement('img');
@@ -418,16 +418,6 @@ var Deck = (function () {
 
         let newposX = Math.round(self.x + pos.x - startPos.x);
         let newposY = Math.round(self.y + pos.y - startPos.y);
-        if (newposX < -($el.offsetLeft + $el.parentNode.offsetLeft)) {
-            newposX = -($el.offsetLeft + $el.parentNode.offsetLeft);
-        } else if (newposX > stage.offsetWidth - $el.parentNode.offsetLeft + $el.offsetLeft - $el.offsetWidth) {
-            newposX = stage.offsetWidth - $el.parentNode.offsetLeft + $el.offsetLeft - $el.offsetWidth;
-        }
-        if (newposY < -($el.offsetTop + $el.parentNode.offsetTop)) {
-            newposY = -($el.offsetTop + $el.parentNode.offsetTop);
-        } else if (newposY > stage.offsetHeight - $el.parentNode.offsetTop - $el.offsetTop - $el.offsetHeight) {
-            newposY = stage.offsetHeight - $el.parentNode.offsetTop - $el.offsetTop - $el.offsetHeight;
-        }
 
         // move card
         $el.style[transform] = translate(newposX + 'px', newposY + 'px') + (self.rot ? ' rotate(' + self.rot + 'deg)' : '');
@@ -435,6 +425,7 @@ var Deck = (function () {
 
       function onMouseup(e) {
         const stage = document.getElementById('deck-container');
+        const scale = stage.getBoundingClientRect().width / stage.offsetWidth;
         if (e.target.className === 'card_image') {
           if (isFlippable && Date.now() - starttime < 200) {
             // flip sides
@@ -450,14 +441,24 @@ var Deck = (function () {
           removeListener(window, 'touchmove', onMousemove);
           removeListener(window, 'touchend', onMouseup);
         }
-        if (!isDraggable) {
+        if (!isDraggable || e.target.className === "hold") {
           // is not draggable, do nothing
           return;
         }
 
-        // set current position
-        const newX = self.x + pos.x - startPos.x;
-        const newY = self.y + pos.y - startPos.y;
+        // get the position on stage
+        const stageRect = stage.getBoundingClientRect();
+        const newX = (e.clientX - stageRect.left) / scale;
+        const newY = (e.clientY - stageRect.top) / scale;
+
+        if (newX < 0 || newY < 0 || newX > stageRect.width / scale || newY > stageRect.height / scale) {
+          self.x = card.x || -z;
+          self.y = card.y || -z;
+          $el.style[transform] = translate((card.x || -z) + 'px', (card.y || -z) + 'px') + (self.rot ? ' rotate(' + self.rot + 'deg)' : '');
+          const targetDeck = document.querySelector(`.deck[data-id="${card.deck_id}"]`);
+          targetDeck.prepend($el);
+          return;
+        }
 
         if ((Date.now() - starttime > 400) && self.x === newX && self.y === newY) {
           zoom();
@@ -465,8 +466,10 @@ var Deck = (function () {
 
         self.x = newX;
         self.y = newY;
+        $el.style[transform] = translate(newX + 'px', newY + 'px') + (self.rot ? ' rotate(' + self.rot + 'deg)' : '');
 
         if (e.target.className === 'card_image') {
+            if ($el.parentNode.id !== "deck-container") stage.append($el);
             stage.dispatchEvent(new CustomEvent('cardPlaced', {detail: {element: self, position: {x: self.x, y: self.y}}}));
         }
       }
@@ -700,6 +703,9 @@ var Deck = (function () {
           if (card.$el.classList.contains('holding')) {
             next();
           } else {
+              const targetDeck = document.querySelector(`.deck[data-id="${card.deck_id}"]`);
+              !card.holding && targetDeck.prepend(card.$el);
+
               card.$el.classList.remove("zoom1");
               card.$el.classList.remove("zoom2");
               card.$el.querySelectorAll('.card_form').forEach(e => e.remove());
@@ -934,6 +940,8 @@ var Deck = (function () {
           if (card.$el.classList.contains('holding')) {
             next();
           } else {
+              const stage = document.getElementById('deck-container');
+              stage.append(card.$el);
               card.bysuit(function (i) {
                   if (i === cards.length - 1) {
                       next();
@@ -956,7 +964,7 @@ var Deck = (function () {
           delay: delay,
           duration: 400,
 
-          x: -Math.round((6.75 - rank) * 102 * ___fontSize / 16),
+          x: 1200 + -Math.round((6.75 - rank) * 102 * ___fontSize / 16),
           y: -Math.round((1.5 - suit) * 140 * ___fontSize / 16) + 470,
           rot: 0,
 
