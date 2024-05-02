@@ -47,6 +47,9 @@
     height:100%;
     top:0;
 }
+.cardboard.minimal .deck {
+    display: none;
+}
 .deck {
     position:relative;
     width: 3.875rem;
