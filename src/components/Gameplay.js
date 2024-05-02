@@ -2182,7 +2182,6 @@ class Gameplay extends Component {
     deckContainer.style.transform =
       "scale(" + newscale + ") translateX(-50%) translateY(10%)";
     deckBar.style.transform = "scale(" + newscale + ")";
-    deckBar.style.bottom = (newscale > 1 ? 40 * newscale : 10) + "px";
   }
 
   zoomPlus() {
@@ -2195,7 +2194,6 @@ class Gameplay extends Component {
     deckContainer.style.transform =
       "scale(" + newscale + ") translateX(-50%) translateY(10%)";
     deckBar.style.transform = "scale(" + newscale + ")";
-    deckBar.style.bottom = (newscale > 1 ? 40 * newscale : 10) + "px";
   }
 
   zoomReset() {
@@ -2468,6 +2466,7 @@ class Gameplay extends Component {
             position: "fixed",
             margin: "auto",
             width: "fit-content",
+            transformOrigin: "bottom",
           }}/>
           <div id="bottom_right" className="step_4">
             <div
