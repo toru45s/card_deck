@@ -158,6 +158,7 @@ html {
     }
     #manipulation {
         margin-right:0;
+        overflow:hidden;
     }
     #deck-selectors_wrapper {
         top:130px;

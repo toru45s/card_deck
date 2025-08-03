@@ -390,7 +390,7 @@
 }
 #manipulation {
     display: flex;
-    overflow:hidden;
+    overflow: auto;
     margin-right:65px;
     z-index: 10003;
     position: relative;
@@ -407,6 +407,7 @@
     border-right: none;
     border: 0;
     background-color: #ffffff70;
+    flex-shrink: 0;
 }
 #manipulation button:hover, #manipulation #account_open:hover:after {
     background-size:75%;
